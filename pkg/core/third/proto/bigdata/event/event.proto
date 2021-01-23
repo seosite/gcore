@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+//import "google/api/annotations.proto";
+
+option go_package = "model/bigdata_event";
+
+package bigdata_event;
+
+service EventService {
+  rpc Upload(EventRequest) returns (EventResponse) {
+    //    option (google.api.http) = {
+    //      post: "/upload"
+    //    };
+  }
+}
+
+message EventRequest {
+  Common common = 1;
+  repeated Event events = 2;
+}
+
+message EventResponse {}
+
+
+message Common {
+  int32 p = 1; // [Required] 所属平台：0=未知,1=wx_mini,微信小程序,2=wx_open,微信公众号,3=h5,手机浏览器,4=pc,5=app,6=快应用
+  string ver = 2; // [Required] 应用版本号
+  string imei = 3; // [Optional] Android设备唯一标识符
+  string mac = 4; // [Optional] 如果无法获取IMEI，可以使用mac地址作为用户唯一标识
+  string idfa = 5; // [Optional] iOS设备唯一标识符
+  string device = 6; // [Optional] 设备型号
+  string brand = 7; // [Optional] 设备品牌
+  string os = 8; // [Optional] 系统版本
+  string screen = 9; // [Optional] 屏幕信息：宽x高x设备像素比x方向
+  string carrier = 10; // [Optional] 运营商
+  string net = 11; // [Optional] 网络状态：0=未知,1=无网络,2=wifi,3=wwan,4=2g,5=3g,6=4g
+  string market = 12; // [Optional] 应用市场名称
+  string tz = 13; // [Optional] 时区：比如:8,-4，默认东八区
+  string lang = 14; // [Optional] 语言
+  string ver_p = 15; // [Optional] 平台版本platform_version，比如微信版本号
+  string auth_notify = 16; // [Optional] 是否有推送权限：0=没有开启,1=开启
+  string v1 = 17; // [Optional] 公共预留字段，以便后续增加字段
+  string v2 = 18; // [Optional] 公共预留字段，以便后续增加字段
+  string v3 = 19; // [Optional] 公共预留字段，以便后续增加字段
+  string v4 = 20; // [Optional] 公共预留字段，以便后续增加字段
+  string v5 = 21; // [Optional] 公共预留字段，以便后续增加字段
+  string v6 = 22; // [Optional] 公共预留字段，以便后续增加字段
+  string v7 = 23; // [Optional] 公共预留字段，以便后续增加字段
+  string v8 = 24; // [Optional] 公共预留字段，以便后续增加字段
+  string v9 = 25; // [Optional] 公共预留字段，以便后续增加字段
+  string v10 = 26; // [Optional] 公共预留字段，以便后续增加字段
+}
+
+message Event {
+  int32 et = 1; // [Required] 事件类型
+  map<string, string> payload = 4; // [Required] 使用map以便扩展
+}
+
+// Event.payload 的已定义字段，供打点参考
+message Payload {
+  string app = 1; // [Required] app名字
+  string env = 2; // [Optional] 所属环境：默认线上环境；test=测试环境
+  string eid = 3; // [Required] 事件id
+  string src_eid = 4; // [Optional] 来源事件id：用于和当前事件串联
+  string ch = 5; // [Optional] 投放渠道id：比如 60001、90001，信息在 `bingtang-all.tb_channel`
+  string bid = 6; // [Optional] 书本id(book_id)
+  string chid = 7; // [Optional] 章节id(chapter_id)
+  string ts = 8; // [Required] 事件发生时间戳：timestamp，精确到毫秒
+  string sid = 9; // [Optional] 会话id(session_id)
+  string sn = 10; // [Optional] 序列号：同一个session内，每条日志都有sn，从0开始递增，直到session发生变化
+  string uid = 11; // [Required] 用户id
+  string openid = 12; // [Optional] 微信openid
+  string pos = 13; // [Optional] 位置编号，用以区分同一板块下的多个组件，从0开始
+  string eval = 14; // [Optional] 事件值，用以区分同一板块下的多个组件
+  string url = 15; // [Optional] 跳转链接：点击事件跳转到外部链接时必填
+  string utm_source = 16; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_medium = 17; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_campaign = 18; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_content = 19; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_term = 20; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string issue = 21; // [Optional] 异常信息：异常情况上报时，提供有用的错误信息
+}
+
+// 仅供归档使用，字段冗余，分别取自 Common + Event + payload
+message Record {
+  int32 p = 1; // [Required] 所属平台：0=未知,1=wx_mini,微信小程序,2=wx_open,微信公众号,3=h5,手机浏览器,4=pc,5=app,6=快应用
+  string ver = 2; // [Required] 应用版本号
+  string imei = 3; // [Optional] Android设备唯一标识符
+  string mac = 4; // [Optional] 如果无法获取IMEI，可以使用mac地址作为用户唯一标识
+  string idfa = 5; // [Optional] iOS设备唯一标识符
+  string device = 6; // [Optional] 设备型号
+  string brand = 7; // [Optional] 设备品牌
+  string os = 8; // [Optional] 系统版本
+  string screen = 9; // [Optional] 屏幕信息：宽x高x设备像素比x方向
+  string carrier = 10; // [Optional] 运营商
+  string net = 11; // [Optional] 网络状态：0=未知,1=无网络,2=wifi,3=wwan,4=2g,5=3g,6=4g
+  string market = 12; // [Optional] 应用市场名称
+  string tz = 13; // [Optional] 时区：比如:8,-4，默认东八区
+  string lang = 14; // [Optional] 语言
+  string ver_p = 15; // [Optional] 平台版本platform_version，比如微信版本号
+  string auth_notify = 16; // [Optional] 是否有推送权限：0=没有开启,1=开启
+  string v1 = 17; // [Optional] 公共预留字段，以便后续增加字段
+  string v2 = 18; // [Optional] 公共预留字段，以便后续增加字段
+  string v3 = 19; // [Optional] 公共预留字段，以便后续增加字段
+  string v4 = 20; // [Optional] 公共预留字段，以便后续增加字段
+  string v5 = 21; // [Optional] 公共预留字段，以便后续增加字段
+  string v6 = 22; // [Optional] 公共预留字段，以便后续增加字段
+  string v7 = 23; // [Optional] 公共预留字段，以便后续增加字段
+  string v8 = 24; // [Optional] 公共预留字段，以便后续增加字段
+  string v9 = 25; // [Optional] 公共预留字段，以便后续增加字段
+  string v10 = 26; // [Optional] 公共预留字段，以便后续增加字段
+  int32 et = 27; // [Required] 事件类型
+  string app = 28; // [Required] app名字
+  string env = 29; // [Optional] 所属环境：默认线上环境；test=测试环境
+  string eid = 30; // [Required] 事件id
+  string src_eid = 31; // [Optional] 来源事件id：用于和当前事件串联
+  string ch = 32; // [Optional] 投放渠道id：比如 60001、90001，信息在 `bingtang-all.tb_channel`
+  string bid = 33; // [Optional] 书本id(book_id)
+  string chid = 34; // [Optional] 章节id(chapter_id)
+  string ts = 35; // [Required] 事件发生时间戳：timestamp，精确到毫秒
+  string sid = 36; // [Optional] 会话id(session_id)
+  string sn = 37; // [Optional] 序列号：同一个session内，每条日志都有sn，从0开始递增，直到session发生变化
+  string uid = 38; // [Required] 用户id
+  string openid = 39; // [Optional] 微信openid
+  string pos = 40; // [Optional] 位置编号，用以区分同一板块下的多个组件，从0开始
+  string eval = 41; // [Optional] 事件值，用以区分同一板块下的多个组件，
+  string url = 42; // [Optional] 跳转链接：点击事件跳转到外部链接时必填
+  string utm_source = 43; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_medium = 44; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_campaign = 45; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_content = 46; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string utm_term = 47; // [Optional] UTM参数，用于追踪流量来源，仅在着陆页使用
+  string issue = 48; // [Optional] 异常信息：异常情况上报时，提供有用的错误信息
+  string ts_server = 49; // [Optional] 服务器添加：服务器接收到的时间戳，精度到毫秒。
+  string ip = 50; // [Optional] 服务端添加：用户ip
+  string ua = 51; // [Optional] 服务端添加：User-agent
+  string referer = 52; // [Optional] 服务端添加：来源链接
+  map<string, string> params = 53; // [Required] 使用map以便扩展
+}
