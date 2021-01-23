@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"gin-vue-admin/global"
-	"gin-vue-admin/internal/model"
-	"gin-vue-admin/internal/model/request"
-	"gin-vue-admin/internal/service"
+	"github.com/seosite/gcore/global"
+	"github.com/seosite/gcore/internal/model"
+	"github.com/seosite/gcore/internal/model/request"
+	"github.com/seosite/gcore/internal/service"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

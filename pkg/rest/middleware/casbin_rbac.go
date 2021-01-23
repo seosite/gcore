@@ -1,11 +1,11 @@
 package middleware
 
 import (
-	"gin-vue-admin/global"
-	"gin-vue-admin/internal/model/request"
-	"gin-vue-admin/internal/model/response"
-	"gin-vue-admin/internal/service"
 	"github.com/gin-gonic/gin"
+	"github.com/seosite/gcore/global"
+	"github.com/seosite/gcore/internal/model/request"
+	"github.com/seosite/gcore/internal/model/response"
+	"github.com/seosite/gcore/internal/service"
 )
 
 // 拦截器

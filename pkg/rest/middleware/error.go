@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"gin-vue-admin/global"
+	"github.com/seosite/gcore/global"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net"
