@@ -34,4 +34,4 @@ require (
 	gorm.io/plugin/prometheus v0.0.0-20210112035011-ae3013937adc
 )
 
-replace github.com/seosite/gcore => github.com/seosite/gcore v0.0.2 // 绝对路径 或 相对路径 都可以
+//replace github.com/seosite/gcore => github.com/seosite/gcore v0.0.2 // 绝对路径 或 相对路径 都可以
