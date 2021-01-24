@@ -72,3 +72,8 @@ func FailCodeMessage(c *gin.Context, code int, message string) {
 func FailDetails(c *gin.Context, code int, data interface{}, message string) {
 	Result(c, code, data, message)
 }
+
+// FailDetails failed json response with all details
+func FailWithDetails(c *gin.Context, data interface{}, message string) {
+	Result(c, CodeError, data, message)
+}

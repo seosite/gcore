@@ -59,6 +59,7 @@ func Default(serverOpt ServerOpt) *Server {
 	// init middlewares
 	s.Engine.Use(middlewareLogger)
 	s.Engine.Use(middleware.BaseRecover(app.Logger, app.Sso, app.Config.Server.AlertUsers))
+	s.Engine.Use(middleware.JWTAuth())
 	s.Engine.Use(cors.Default())
 	s.Engine.Use(s.Opt.Middlewares...)
 	// init routes

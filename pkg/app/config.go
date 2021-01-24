@@ -13,6 +13,7 @@ type Conf struct {
 	Redis        map[string]RedisConf `mapstructure:"redis" json:"redis" yaml:"redis"`
 	Cache        CacheConf            `mapstructure:"cache" json:"cache" yaml:"cache"`
 	Cos          CosConf              `mapstructure:"cos" json:"cos" yaml:"cos"`
+	JWT          JWTConf              `mapstructure:"jwt_conf" json:"jwt_conf" yaml:"jwt_conf"`
 	ThirdService ThirdServiceConf     `mapstructure:"thirdService" json:"thirdService" yaml:"thirdService"`
 }
 
@@ -62,6 +63,15 @@ type CosConf struct {
 	Bucket    string `mapstructure:"bucket" json:"bucket" yaml:"bucket"`
 	RootPath  string `mapstructure:"rootPath" json:"rootPath" yaml:"rootPath"`
 	Timeout   int    `mapstructure:"timeout" json:"timeout" yaml:"timeout"`
+}
+
+type JWTConf struct {
+	IsOpen       int64  `mapstructure:"isOpen" json:"isOpen" yaml:"isOpen"`
+	JwtID        string `mapstructure:"jwtID" json:"jwtID" yaml:"jwtID"`
+	JwtTokenName string `mapstructure:"jwtTokenName" json:"jwtTokenName" yaml:"jwtTokenName"`
+	SigningKey   string `mapstructure:"signingKey" json:"signingKey" yaml:"signingKey"`
+	ExpiresTime  int64  `mapstructure:"expires-time" json:"expiresTime" yaml:"expires-time"`
+	BufferTime   int64  `mapstructure:"buffer-time" json:"bufferTime" yaml:"buffer-time"`
 }
 
 // ThirdServiceConf third service domain config

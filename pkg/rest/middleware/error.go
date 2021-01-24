@@ -1,15 +1,16 @@
 package middleware
 
 import (
-	"github.com/seosite/gcore/global"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"os"
 	"runtime/debug"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/seosite/gcore/pkg/app"
+	"go.uber.org/zap"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志
@@ -30,7 +31,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if brokenPipe {
-					global.GvaLog.Error(c.Request.URL.Path,
+					app.Logger.Error(c.Request.URL.Path,
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
@@ -41,13 +42,13 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				}
 
 				if stack {
-					global.GvaLog.Error("[Recovery from panic]",
+					app.Logger.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 						zap.String("stack", string(debug.Stack())),
 					)
 				} else {
-					global.GvaLog.Error("[Recovery from panic]",
+					app.Logger.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
