@@ -1,0 +1,27 @@
+server:
+  name: "demo"
+  domain: "https://xxx.com"
+  port: 8080
+  env: "local" # local / qa / prod
+  allowOrigins: ["*"]
+  alertUsers: []
+  debugKey: "yourDebugKey"
+
+log:
+  mod: "console" # console / fileSizeRotate / k8s
+
+mysql:
+  # default:
+  #   username: root
+  #   password: ""
+  #   path: "127.0.0.1:3306"
+  #   dbName: "demo"
+  #   config: "charset=utf8mb4&parseTime=True&loc=Local"
+  #   maxIdleConns: 10
+  #   maxOpenConns: 20
+
+redis:
+  default:
+    addr: "localhost:6379"
+    password: ""
+    db: 1

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/natefinch/lumberjack"
+	"github.com/seosite/gcore/pkg/core/threading"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -127,12 +128,12 @@ func Sync() {
 
 // Async sync logger buffer on background with 1s interval
 func Async() {
-	go func() {
+	threading.GoSafe(func() {
 		for {
 			sync()
 			time.Sleep(time.Second)
 		}
-	}()
+	})
 }
 
 func sync() {

@@ -1,0 +1,43 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "model/wxaccesstoken";
+
+import "google/api/annotations.proto";
+
+service AccessTokenService {
+  rpc GetByAppIDSecret(GetByAppIDSecretRequest) returns (GetByAppIDSecretResponse) {
+    option (google.api.http) = {
+      get: "/v1/accesstoken/getByAppIDSecret"
+    };
+  }
+
+  rpc GetByAppCode(GetByAppCodeRequest) returns (GetByAppCodeResponse) {
+    option (google.api.http) = {
+      get: "/v1/accesstoken/getByAppCode"
+    };
+  }
+}
+
+//======================== 获取三方微信客户端 ========================
+message GetByAppIDSecretRequest {
+  string app_id = 1;
+  string app_secret = 2;
+}
+
+message GetByAppIDSecretResponse {
+  int32 code = 1;
+  string msg = 2;
+  string data = 3;
+}
+
+//======================== 获取三方微信客户端 ========================
+message GetByAppCodeRequest {
+  string appCode = 1;
+}
+
+message GetByAppCodeResponse {
+  int32 code = 1;
+  string msg = 2;
+  string data = 3;
+}

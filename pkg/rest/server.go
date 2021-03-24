@@ -62,6 +62,7 @@ func Default(serverOpt ServerOpt) *Server {
 	s.Engine.Use(cors.Default())
 	s.Engine.Use(s.Opt.Middlewares...)
 	// init routes
+	router.WithKeepalive(s.Engine)
 	router.WithMetrics(s.Engine)
 	s.Opt.Router(s.Engine)
 

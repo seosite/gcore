@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/seosite/gcore/pkg/core/jsonx"
+	"github.com/seosite/gcore/pkg/core/threading"
 	"github.com/spf13/cast"
 	"go.uber.org/zap"
 )
@@ -29,6 +30,18 @@ type Analytics struct {
 	Platform int
 }
 
+// NewAnalytics new Analytics
+func NewAnalytics(logger *zap.Logger, domain, env, version string, appID, platform int) *Analytics {
+	return &Analytics{
+		Logger:   logger,
+		Domain:   domain,
+		Env:      env,
+		Version:  version,
+		AppID:    appID,
+		Platform: platform,
+	}
+}
+
 // AnalyticsRequest request for bigdata logging
 type AnalyticsRequest struct {
 	domain  string
@@ -41,12 +54,12 @@ type AnalyticsRequest struct {
 // eid: event id
 // seid: source event id
 func (s *Analytics) SendDefault(uid string, eid string, seid string, extends map[string]interface{}) error {
-	go func() {
+	threading.GoSafe(func() {
 		err := s.DefaultRequest(uid, eid, seid, extends).Send()
 		if err != nil && s.Logger != nil {
 			s.Logger.Error("SendDefault failed", zap.Error(err))
 		}
-	}()
+	})
 	return nil
 }
 

@@ -232,13 +232,13 @@ func (tw *TimingWheel) runTasks(tasks []timingTask) {
 		return
 	}
 
-	go func() {
+	threading.GoSafe(func() {
 		for i := range tasks {
 			threading.RunSafe(func() {
 				tw.execute(tasks[i].key, tasks[i].value)
 			})
 		}
-	}()
+	})
 }
 
 func (tw *TimingWheel) scanAndRunTasks(l *list.List) {

@@ -13,17 +13,18 @@ type Conf struct {
 	Redis        map[string]RedisConf `mapstructure:"redis" json:"redis" yaml:"redis"`
 	Cache        CacheConf            `mapstructure:"cache" json:"cache" yaml:"cache"`
 	Cos          CosConf              `mapstructure:"cos" json:"cos" yaml:"cos"`
-	JWT          JWTConf              `mapstructure:"jwt_conf" json:"jwt_conf" yaml:"jwt_conf"`
 	ThirdService ThirdServiceConf     `mapstructure:"thirdService" json:"thirdService" yaml:"thirdService"`
 }
 
 // ServerConf server config
 type ServerConf struct {
-	Name         string   `mapstructure:"name" json:"name" yaml:"name"`
-	Port         int      `mapstructure:"port" json:"port" yaml:"port"`
-	Env          env.Type `mapstructure:"env" json:"env" yaml:"env"`
-	AllowOrigins []string `mapstructure:"allowOrigins" json:"allowOrigins" yaml:"allowOrigins"`
-	AlertUsers   []string `mapstructure:"alertUsers" json:"alertUsers" yaml:"alertUsers"`
+	Name           string   `mapstructure:"name" json:"name" yaml:"name"`
+	Port           int      `mapstructure:"port" json:"port" yaml:"port"`
+	RPCPort        int      `mapstructure:"rpcPort" json:"rpcPort" yaml:"rpcPort"`
+	RPCGatewayPort int      `mapstructure:"rpcGatewayPort" json:"rpcGatewayPort" yaml:"rpcGatewayPort"`
+	Env            env.Type `mapstructure:"env" json:"env" yaml:"env"`
+	AllowOrigins   []string `mapstructure:"allowOrigins" json:"allowOrigins" yaml:"allowOrigins"`
+	AlertUsers     []string `mapstructure:"alertUsers" json:"alertUsers" yaml:"alertUsers"`
 }
 
 // LogConf log config
@@ -65,19 +66,13 @@ type CosConf struct {
 	Timeout   int    `mapstructure:"timeout" json:"timeout" yaml:"timeout"`
 }
 
-type JWTConf struct {
-	IsOpen       int64  `mapstructure:"isOpen" json:"isOpen" yaml:"isOpen"`
-	JwtID        string `mapstructure:"jwtID" json:"jwtID" yaml:"jwtID"`
-	JwtTokenName string `mapstructure:"jwtTokenName" json:"jwtTokenName" yaml:"jwtTokenName"`
-	SigningKey   string `mapstructure:"signingKey" json:"signingKey" yaml:"signingKey"`
-	ExpiresTime  int64  `mapstructure:"expires-time" json:"expiresTime" yaml:"expires-time"`
-	BufferTime   int64  `mapstructure:"buffer-time" json:"bufferTime" yaml:"buffer-time"`
-}
-
 // ThirdServiceConf third service domain config
 type ThirdServiceConf struct {
-	Sso       ThirdSsoConf       `mapstructure:"sso" json:"sso" yaml:"sso"`
-	Analytics ThirdAnalyticsConf `mapstructure:"analytics" json:"analytics" yaml:"analytics"`
+	Sso        ThirdSsoConf        `mapstructure:"sso" json:"sso" yaml:"sso"`
+	Analytics  ThirdAnalyticsConf  `mapstructure:"analytics" json:"analytics" yaml:"analytics"`
+	WxNotify   ThirdWxNotifyConf   `mapstructure:"wxNotify" json:"wxNotify" yaml:"wxNotify"`
+	WxCenter   ThirdWxCenterConf   `mapstructure:"wxCenter" json:"wxCenter" yaml:"wxCenter"`
+	RPCFortune ThirdRPCFortuneConf `mapstructure:"rpcFortune" json:"rpcFortune" yaml:"rpcFortune"`
 }
 
 // ThirdSsoConf sso config
@@ -91,4 +86,19 @@ type ThirdAnalyticsConf struct {
 	Version  string `mapstructure:"version" json:"version" yaml:"version"`
 	AppID    int    `mapstructure:"appid" json:"appid" yaml:"appid"`
 	Platform int    `mapstructure:"platform" json:"platform" yaml:"platform"`
+}
+
+// ThirdWxNotifyConf wechat notify center config
+type ThirdWxNotifyConf struct {
+	Address string `mapstructure:"address" json:"address" yaml:"address"`
+}
+
+// ThirdWxCenterConf wechat base center config
+type ThirdWxCenterConf struct {
+	Address string `mapstructure:"address" json:"address" yaml:"address"`
+}
+
+// ThirdRPCFortuneConf fortune common center config
+type ThirdRPCFortuneConf struct {
+	Address string `mapstructure:"address" json:"address" yaml:"address"`
 }

@@ -18,11 +18,12 @@ func NewTaskRunner(concurrency int) *TaskRunner {
 func (rp *TaskRunner) Schedule(task func()) {
 	rp.limitChan <- lang.Placeholder
 
-	go func() {
+	// threading.GoSafe(func() {
+	GoSafe(func() {
 		defer rescue.Recover(func() {
 			<-rp.limitChan
 		})
 
 		task()
-	}()
+	})
 }

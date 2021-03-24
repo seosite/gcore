@@ -5,12 +5,12 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
+	"github.com/spf13/viper"
 	"github.com/seosite/gcore/pkg/core/collection"
 	"github.com/seosite/gcore/pkg/core/logx"
 	"github.com/seosite/gcore/pkg/core/tencentyun"
 	"github.com/seosite/gcore/pkg/core/third"
 	"github.com/seosite/gcore/pkg/core/zapx"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	driver_mysql "gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -91,47 +91,50 @@ func InitDb() {
 
 	Db = make(map[string]*gorm.DB, dbNum)
 	for name, config := range configs {
-		loglevel := logger.Info
-		if IsProd() {
-			loglevel = logger.Silent
-		}
-		dsn := config.Username + ":" + config.Password + "@(" + config.Path + ")/" + config.Dbname + "?" + config.Config
-		db, err := gorm.Open(driver_mysql.Open(dsn), &gorm.Config{
-			Logger:                                   logger.Default.LogMode(loglevel), // @TODO change to app logger
-			SkipDefaultTransaction:                   true,
-			PrepareStmt:                              true,
-			DisableForeignKeyConstraintWhenMigrating: true,
-		})
-		if err != nil {
-			panic(fmt.Errorf("Connect mysql[%s] error: %s", name, err))
-		}
-
-		// export metrics
-		db.Use(prometheus.New(prometheus.Config{
-			DBName:          "default",                  // `DBName` as metrics label
-			RefreshInterval: 15,                         // refresh metrics interval (default 15 seconds)
-			StartServer:     false,                      // start http server to expose metrics
-			HTTPServerPort:  uint32(Config.Server.Port), // configure http server port, default port 8080 (if you have configured multiple instances, only the first `HTTPServerPort` will be used to start server)
-			MetricsCollector: []prometheus.MetricsCollector{
-				&prometheus.MySQL{
-					Prefix:        "gorm_status_",
-					Interval:      100,
-					VariableNames: []string{"Threads_running"},
-				},
-			},
-		}))
-
-		sqlDb, err := db.DB()
-		if err != nil {
-			panic(fmt.Errorf("Ping mysql[%s] error: %s", name, err))
-		}
-
-		sqlDb.SetMaxIdleConns(config.MaxIdleConns)
-		sqlDb.SetMaxOpenConns(config.MaxOpenConns)
-		sqlDb.SetConnMaxLifetime(time.Hour)
-
-		Db[name] = db
+		Db[name] = createDb(name, config)
 	}
+}
+
+func createDb(name string, config MysqlConf) *gorm.DB {
+	loglevel := logger.Info
+	if IsProd() {
+		loglevel = logger.Silent
+	}
+	dsn := config.Username + ":" + config.Password + "@(" + config.Path + ")/" + config.Dbname + "?" + config.Config
+	db, err := gorm.Open(driver_mysql.Open(dsn), &gorm.Config{
+		Logger:                                   logger.Default.LogMode(loglevel), // @TODO change to app logger
+		SkipDefaultTransaction:                   true,
+		PrepareStmt:                              true,
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
+	if err != nil {
+		panic(fmt.Errorf("Connect mysql[%s] error: %s", name, err))
+	}
+
+	// export metrics
+	db.Use(prometheus.New(prometheus.Config{
+		DBName:          "default",                  // `DBName` as metrics label
+		RefreshInterval: 15,                         // refresh metrics interval (default 15 seconds)
+		StartServer:     false,                      // start http server to expose metrics
+		HTTPServerPort:  uint32(Config.Server.Port), // configure http server port, default port 8080 (if you have configured multiple instances, only the first `HTTPServerPort` will be used to start server)
+		MetricsCollector: []prometheus.MetricsCollector{
+			&prometheus.MySQL{
+				Prefix:        "gorm_status_",
+				Interval:      100,
+				VariableNames: []string{"Threads_running"},
+			},
+		},
+	}))
+
+	sqlDb, err := db.DB()
+	if err != nil {
+		panic(fmt.Errorf("Ping mysql[%s] error: %s", name, err))
+	}
+
+	sqlDb.SetMaxIdleConns(config.MaxIdleConns)
+	sqlDb.SetMaxOpenConns(config.MaxOpenConns)
+	sqlDb.SetConnMaxLifetime(time.Hour)
+	return db
 }
 
 // InitRedis init app redis client
@@ -198,22 +201,27 @@ func InitCos() {
 // }
 
 // InitThird init third services
-func InitThird() {
+func InitThird() error {
+	var err error
+
 	// sso
 	Sso = &third.Sso{Domain: Config.ThirdService.Sso.Domain}
 
 	// analytics
-	analyticsEnv := third.AnalyticsEnvTest
-	if IsProd() {
-		analyticsEnv = third.AnalyticsEnvDefault
-	}
-	Analytics = &third.Analytics{
-		Logger:   Logger,
-		Domain:   Config.ThirdService.Analytics.Domain,
-		Env:      analyticsEnv,
-		Version:  Config.ThirdService.Analytics.Version,
-		AppID:    Config.ThirdService.Analytics.AppID,
-		Platform: Config.ThirdService.Analytics.Platform,
+	if Config.ThirdService.Analytics.Domain != "" {
+		analyticsEnv := third.AnalyticsEnvTest
+		if IsProd() {
+			analyticsEnv = third.AnalyticsEnvDefault
+		}
+		Analytics = &third.Analytics{
+			Logger:   Logger,
+			Domain:   Config.ThirdService.Analytics.Domain,
+			Env:      analyticsEnv,
+			Version:  Config.ThirdService.Analytics.Version,
+			AppID:    Config.ThirdService.Analytics.AppID,
+			Platform: Config.ThirdService.Analytics.Platform,
+		}
 	}
 
+	return err
 }

@@ -44,7 +44,7 @@ func BaseRecover(log *zap.Logger, sso *third.Sso, alertUsers []string) gin.Handl
 
 					lastTryAlertTime = time.Now()
 					content := "App: %s\nEnv: %s\nTime: %s\nError: %s"
-					content = fmt.Sprintf(content, app.Config.Server.Name, app.Config.Server.Env, lastTryAlertTime.Format("2006-01-02 13:04:05"), errDetail)
+					content = fmt.Sprintf(content, app.Config.Server.Name, app.Config.Server.Env, lastTryAlertTime.Format("2006-01-02 15:04:05"), errDetail)
 					alertErr := sso.SendWorkWechatMsg(alertUsers, fmt.Sprintf("%v", content))
 					if alertErr != nil {
 						log.Error(

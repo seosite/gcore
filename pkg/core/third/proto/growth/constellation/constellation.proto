@@ -1,0 +1,297 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "model/constellation";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service Constellation {
+  // 获取某日的运势
+  rpc GetByDate(GetByDateReq) returns (GetByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getByDate"
+      body: "*"
+    };
+  }
+  // 获取某周的运势
+  rpc GetWeekByDate(GetWeekByDateReq) returns (GetWeekByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getWeekByDate"
+      body: "*"
+    };
+  }
+
+  // 获取某月的运势
+  rpc GetMonthByDate(GetMonthByDateReq) returns (GetMonthByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getMonthLiByDate"
+      body: "*"
+    };
+  }
+
+  // 获取某年的运势
+  rpc GetYearByDate(GetYearByDateReq) returns (GetYearByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getYearByDate"
+      body: "*"
+    };
+  }
+
+  // 获取某日的运势图
+  rpc GetPicByDate(GetPicByDateReq) returns (GetPicByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getPicByDate"
+      body: "*"
+    };
+  }
+  // 获取某周的运势图
+  rpc GetWeekPicByDate(GetWeekPicByDateReq) returns (GetWeekPicByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getWeekPicByDate"
+      body: "*"
+    };
+  }
+  // 获取某月的运势图
+  rpc GetMonthPicByDate(GetMonthPicByDateReq) returns (GetMonthPicByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getMonthPicByDate"
+      body: "*"
+    };
+  }
+
+  // 获取某年的运势图
+  rpc GetYearPicByDate(GetYearPicByDateReq) returns (GetYearPicByDateRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getYearPicByDate"
+      body: "*"
+    };
+  }
+
+  // 获取星座配对
+  rpc GetXZPD(GetXZPDReq) returns (GetXZPDRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getXZPD"
+      body: "*"
+    };
+  }
+
+
+  // 获取星座配对图
+  rpc GetXZPDPic(GetXZPDPicReq) returns (GetXZPDPicRes) {
+    option (google.api.http) = {
+      post: "/v1/constellation/getXZPDPic"
+      body: "*"
+    };
+  }
+}
+//======================== 查询星座配对 ========================
+message GetXZPDPicReq {
+  string man_cons_name = 1;
+  string woman_cons_name = 2;
+  string app_code = 3;
+  string access_token = 4;
+}
+
+message GetXZPDPicRes {
+  int32 code = 1;
+  string msg = 2;
+  XZPDPicInfo data = 3;
+}
+
+message XZPDPicInfo {
+  string mediaID = 1;
+}
+//======================== 查询星座配对 ========================
+message GetXZPDReq {
+  string man_cons_name = 1;
+  string woman_cons_name = 2;
+}
+
+message GetXZPDRes {
+  int32 code = 1;
+  string msg = 2;
+  XZPDInfo data = 3;
+}
+
+message XZPDInfo {
+  string men = 1;
+  string women = 2;
+  string zhishu = 3;
+  string bizhong = 4;
+  string xiangyue = 5;
+  string tcdj = 6;
+  string jieguo = 7;
+  string lianai = 8;
+  string zhuyi = 9;
+}
+//======================== 查询某天的运势 ========================
+message GetByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+}
+
+message GetByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  Info data = 3;
+}
+
+message Info {
+  int64 date = 1;
+  string name = 2;
+  string QFriend = 3;
+  string color = 4;
+  string datetime = 5;
+  string health = 6;
+  string love = 7;
+  string work = 8;
+  string money = 9;
+  int64 number = 10;
+  string summary = 11;
+  string all = 12;
+  string yi = 13;
+  string ji = 14;
+  string template_content = 15;
+}
+
+//======================== 查询某周的运势 ========================
+message GetWeekByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+}
+
+message GetWeekByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  WeekInfo data = 3;
+}
+message WeekInfo {
+  string name = 1;
+  int64 weekth = 2;
+  string date = 3;
+  string health = 4;
+  string job = 5;
+  string love = 6;
+  string money = 7;
+  string work = 8;
+  string template_content = 9;
+}
+
+//======================== 查询某月的运势 ========================
+
+message GetMonthByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+}
+
+message GetMonthByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  MonthInfo data = 3;
+}
+message MonthInfo {
+  string date = 1;
+  string name = 2;
+  int64 month = 3;
+  string health = 4;
+  string all = 5;
+  string love = 6;
+  string money = 7;
+  string work = 8;
+  string happyMagic = 9;
+  string template_content = 10;
+}
+//======================== 查询某年的运势 ========================
+
+message GetYearByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+}
+
+message GetYearByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  YearInfo data = 3;
+}
+
+message YearInfo {
+  string name = 1;
+  string date = 2;
+  int64 year = 3;
+  YearMimaInfo mima = 4;
+  repeated string  career = 5;
+  repeated string  love = 6;
+  repeated string  health = 7;
+  repeated string  finance = 8;
+  string luckey_stone = 9;
+  string future = 10;
+  string template_content = 11;
+}
+
+message YearMimaInfo {
+  string info = 1;
+  repeated string text = 2;
+}
+
+//======================== 查询某日的运势图 ========================
+message PicInfo {
+  string mediaID = 1;
+  string name = 2;
+}
+
+message GetPicByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+  string app_code = 3;
+  string access_token = 4;
+}
+
+message GetPicByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  PicInfo data = 3;
+}
+
+//======================== 查询某周的运势图 ========================
+message GetWeekPicByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+  string app_code = 3;
+  string access_token = 4;
+}
+
+message GetWeekPicByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  PicInfo data = 3;
+}
+
+//======================== 查询某月的运势图 ========================
+message GetMonthPicByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+  string app_code = 3;
+  string access_token = 4;
+}
+
+message GetMonthPicByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  PicInfo data = 3;
+}
+
+//======================== 查询某年的运势图 ========================
+message GetYearPicByDateReq {
+  google.protobuf.Timestamp date = 1;
+  string name = 2;
+  string app_code = 3;
+  string access_token = 4;
+}
+
+message GetYearPicByDateRes {
+  int32 code = 1;
+  string msg = 2;
+  PicInfo data = 3;
+}
+

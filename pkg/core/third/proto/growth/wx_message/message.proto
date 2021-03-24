@@ -1,0 +1,163 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "model/wxmessage";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service MessageService {
+  rpc GetListByPage(MessagePageListRequest) returns (MessagePageListResponse) {
+    option (google.api.http) = {
+      get: "/v1/messages/getListByPage"
+    };
+  }
+  rpc GetOne(Message) returns (MessageResponse) {
+    option (google.api.http) = {
+      get: "/v1/messages/getOne"
+    };
+  }
+  rpc CreateOne(Message) returns (MessageResponse) {
+    option (google.api.http) = {
+      post: "/v1/messages/createOne"
+      body: "*"
+    };
+  }
+  rpc UpdateOne(Message) returns (MessageResponse) {
+    option (google.api.http) = {
+      put: "/v1/messages/updateOne"
+      body: "*"
+    };
+  }
+  rpc ChangeStatus(MessageChangeStatusRequest) returns (MessageChangeStatusResponse) {
+    option (google.api.http) = {
+      put: "/v1/messages/changeStatus"
+      body: "*"
+    };
+  }
+  rpc GetOneBySubscribe(GetOneBySubscribeRequest) returns (MessageResponse) {
+    option (google.api.http) = {
+      get: "/v1/messages/getOneBySubscribe"
+    };
+  }
+  rpc GetOneLinkByMP(GetOneLinkByMPRequest) returns (MessageLinkResponse) {
+    option (google.api.http) = {
+      get: "/v1/messages/getOneLinkByMP"
+    };
+  }
+  rpc GetSendLogsByPage(MessageSendLogRequest) returns (MessageSendLogResponse) {
+    option (google.api.http) = {
+      get: "/v1/messages/getSendLogsByPage"
+    };
+  }
+}
+
+message Message {
+  int32 id = 1;
+  string name = 2;
+  int32 type = 3;
+  string content = 4;
+  string app_config = 5 [json_name="app_config"];
+  string user_config = 6 [json_name="user_config"];
+  string time_config = 7 [json_name="time_config"];
+  int32 status = 8;
+  google.protobuf.Timestamp created_at = 9 [json_name="created_at"];
+  google.protobuf.Timestamp updated_at = 10 [json_name="updated_at"];
+}
+
+message MessageLink {
+  int32 id = 1;
+  int32 message_id = 2;
+  string name = 3;
+  int32 type = 4;
+  string href = 5;
+  string msgmenucontent = 6 [json_name="msgmenucontent"];
+  string msgmenuid = 7 [json_name="msgmenuid"];
+  string mini_appid = 8 [json_name="mini_appid"];
+  string mini_path = 9 [json_name="mini_path"];
+  google.protobuf.Timestamp created_at = 10 [json_name="created_at"];
+  google.protobuf.Timestamp updated_at = 11 [json_name="updated_at"];
+}
+
+message MessageSendLog {
+  int32 id = 1;
+  int32 message_id = 2 [json_name="message_id"];
+  string app_code = 3 [json_name="app_code"];
+  int32 user_count = 4 [json_name="user_count"];
+  google.protobuf.Timestamp start_at = 5 [json_name="start_at"];
+  google.protobuf.Timestamp end_at = 6 [json_name="end_at"];
+  int32 status = 7;
+  google.protobuf.Timestamp created_at = 8 [json_name="created_at"];
+  google.protobuf.Timestamp updated_at = 9 [json_name="updated_at"];
+}
+
+message MessagePageList {
+  int32 page = 1;
+  int32 page_size = 2 [json_name="page_size"];
+  int32 total_page = 3 [json_name="total_page"];
+  int32 total_count = 4 [json_name="total_count"];
+  repeated Message list = 5;
+}
+
+message MessageSendLogPageList {
+  int32 page = 1;
+  int32 page_size = 2 [json_name="page_size"];
+  int32 total_page = 3 [json_name="total_page"];
+  int32 total_count = 4 [json_name="total_count"];
+  repeated MessageSendLog list = 5;
+}
+
+message MessageResponse {
+  int32 code = 1;
+  string msg = 2;
+  Message data = 3;
+}
+
+message MessageLinkResponse {
+  int32 code = 1;
+  string msg = 2;
+  MessageLink data = 3;
+}
+
+message MessagePageListRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message MessagePageListResponse {
+  int32 code = 1;
+  string msg = 2;
+  MessagePageList data = 3;
+}
+
+message MessageChangeStatusRequest {
+  int32 id = 1;
+  int32 status = 2;
+}
+
+message MessageChangeStatusResponse {
+  int32 code = 1;
+  string msg = 2;
+}
+
+message GetOneBySubscribeRequest {
+  string app_code = 1;
+}
+
+message GetOneLinkByMPRequest {
+  string msg_menu_id = 1;
+  string msg_menu_content = 2;
+  bool check_both = 3;
+}
+
+message MessageSendLogRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  int32 msg_id = 3;
+}
+
+message MessageSendLogResponse {
+  int32 code = 1;
+  string msg = 2;
+  MessageSendLogPageList data = 3;
+}

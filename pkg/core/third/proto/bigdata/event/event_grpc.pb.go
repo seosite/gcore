@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // EventServiceClient is the client API for EventService service.
@@ -62,7 +63,7 @@ type UnsafeEventServiceServer interface {
 }
 
 func RegisterEventServiceServer(s grpc.ServiceRegistrar, srv EventServiceServer) {
-	s.RegisterService(&_EventService_serviceDesc, srv)
+	s.RegisterService(&EventService_ServiceDesc, srv)
 }
 
 func _EventService_Upload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -83,7 +84,10 @@ func _EventService_Upload_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-var _EventService_serviceDesc = grpc.ServiceDesc{
+// EventService_ServiceDesc is the grpc.ServiceDesc for EventService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var EventService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "bigdata_event.EventService",
 	HandlerType: (*EventServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -93,5 +97,5 @@ var _EventService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pkg/core/third/proto/bigdata/event/event.proto",
+	Metadata: "bigdata/event/event.proto",
 }
