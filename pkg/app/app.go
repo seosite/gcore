@@ -105,3 +105,29 @@ func UseRedis(name string) *redis.Client {
 func DefaultRedis() *redis.Client {
 	return UseRedis("default")
 }
+
+// InitRedisByDB select redis db
+func DefaultRedisByDB(db int, redisName string) *redis.Client {
+	configs := Config.Redis
+	redisNum := len(configs)
+	if redisNum == 0 {
+		return nil
+	}
+
+	if config, ok := configs[redisName]; ok {
+		client := redis.NewClient(&redis.Options{
+			Addr:     config.Addr,
+			Password: config.Password,
+			DB:       db,
+		})
+		_, err := client.Ping().Result()
+		if err != nil {
+			panic(fmt.Errorf("Ping redis[%s] error: %s", redisName, err))
+		}
+
+		Redis[redisName] = client
+		return client
+	}
+
+	return nil
+}
