@@ -17,13 +17,11 @@ require (
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/prometheus/client_golang v1.9.0
 	github.com/segmentio/kafka-go v0.4.10
-	github.com/silenceper/wechat/v2 v2.0.5
 	github.com/spaolacci/murmur3 v1.1.0
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/viper v1.7.1
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.18
 	go.uber.org/zap v1.16.0
-	google.golang.org/genproto v0.0.0-20210224155714-063164c882e6
 	google.golang.org/grpc v1.36.0
 	google.golang.org/protobuf v1.25.1-0.20201208041424-160c7477e0e8
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
