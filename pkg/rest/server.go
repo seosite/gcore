@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/gin-contrib/cors"
@@ -71,5 +72,12 @@ func Default(serverOpt ServerOpt) *Server {
 
 // Run run server
 func (s *Server) Run() {
-	s.Engine.Run(":" + strconv.Itoa(app.Config.Server.Port))
+
+	fmt.Println("Running http server on :", app.Config.Server.Port)
+	var err error = nil
+	defer func() {
+		panic(fmt.Errorf("Server Run error: %s", err))
+	}()
+
+	err = s.Engine.Run(":" + strconv.Itoa(app.Config.Server.Port))
 }
