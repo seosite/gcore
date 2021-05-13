@@ -5,12 +5,12 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/spf13/viper"
 	"github.com/seosite/gcore/pkg/core/collection"
 	"github.com/seosite/gcore/pkg/core/logx"
 	"github.com/seosite/gcore/pkg/core/tencentyun"
 	"github.com/seosite/gcore/pkg/core/third"
 	"github.com/seosite/gcore/pkg/core/zapx"
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	driver_mysql "gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -79,6 +79,7 @@ func InitLogger() {
 	zapx.Async()
 
 	Logger = logger
+	fmt.Println("Load log success.")
 }
 
 // InitDb init app db
@@ -93,6 +94,8 @@ func InitDb() {
 	for name, config := range configs {
 		Db[name] = createDb(name, config)
 	}
+
+	fmt.Println("Load DB success.")
 }
 
 func createDb(name string, config MysqlConf) *gorm.DB {
@@ -159,6 +162,8 @@ func InitRedis() {
 
 		Redis[name] = client
 	}
+
+	fmt.Println("Load Redis success.")
 }
 
 // InitCache init app cache
@@ -175,6 +180,8 @@ func InitCache() {
 	}
 
 	Cache = cache
+
+	fmt.Println("Load Cache success.")
 }
 
 // InitCos init app default cos
@@ -188,6 +195,8 @@ func InitCos() {
 	cosStorage := tencentyun.NewCosStorage(config.SecretID, config.SecretKey, config.Region, config.Bucket, config.RootPath, timeout)
 
 	Cos = cosStorage
+
+	fmt.Println("Load Cos success.")
 }
 
 // InitMiddleware init router middleware
