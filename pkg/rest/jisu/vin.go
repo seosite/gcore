@@ -46,7 +46,16 @@ type QueryByVinInfo struct {
 	Bodystructure          string      `json:"bodystructure"`
 	Maxhorsepower          string      `json:"maxhorsepower"`
 	Iscorrect              int64       `json:"iscorrect"`
-	Machineoil             struct {
+	Gearboxinfo            struct {
+		Gearboxmodel    string   `json:"gearboxmodel"`
+		Gearboxbrand    string   `json:"gearboxbrand"`
+		Joint           string   `json:"joint"`
+		Gravityoil      string   `json:"gravityoil"`
+		Mechanicaloil   string   `json:"mechanicaloil"`
+		Jointpiclist    []string `json:"jointpiclist"`
+		Positionpiclist []string `json:"positionpiclist"`
+	} `json:"gearboxinfo"`
+	Machineoil struct {
 		Volume    string `json:"volume"`
 		Viscosity string `json:"viscosity"`
 		Grade     string `json:"grade"`
@@ -83,7 +92,7 @@ func (j *JisuAPI) QueryByVin(vin string, c *gin.Context) (info QueryByVinInfo, e
 
 	var queryByVin QueryByVin
 
-	res, err := netx.NewRetryClient().Post(url,"text/html",nil)
+	res, err := netx.NewRetryClient().Post(url, "text/html", nil)
 	if err != nil {
 		return
 	}
