@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/gin-contrib/cors"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/seosite/gcore/pkg/app"
@@ -60,7 +58,7 @@ func Default(serverOpt ServerOpt) *Server {
 	// init middlewares
 	s.Engine.Use(middlewareLogger)
 	s.Engine.Use(middleware.BaseRecover(app.Logger, app.Sso, app.Config.Server.AlertUsers))
-	s.Engine.Use(cors.Default())
+	// s.Engine.Use(cors.Default())
 	s.Engine.Use(s.Opt.Middlewares...)
 	// init routes
 	router.WithKeepalive(s.Engine)
