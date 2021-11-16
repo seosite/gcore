@@ -8,6 +8,7 @@ import (
 	"github.com/seosite/gcore/pkg/core/env"
 	"github.com/seosite/gcore/pkg/core/tencentyun"
 	"github.com/seosite/gcore/pkg/core/third"
+	"github.com/seosite/gcore/pkg/rest/jisu"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -36,6 +37,8 @@ var (
 
 	// AppLogFile default app log file
 	AppLogFile = "./storage/logs/app.log"
+
+	JisuAPI *jisu.JisuAPI
 )
 
 // ------ config ------

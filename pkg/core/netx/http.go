@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/seosite/gcore/pkg/core/jsonx"
 )
@@ -42,7 +43,7 @@ func NewRetryClient() *RetryClient {
 }
 
 // Get .
-func (c *RetryClient) Get(url string) (string, error) {
+func (c *RetryClient) Get(url string, cxt *gin.Context) (string, error) {
 	resp, err := c.client.Get(url)
 	if err != nil {
 		return "", err
