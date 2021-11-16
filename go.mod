@@ -4,7 +4,6 @@ go 1.15
 
 require (
 	github.com/fatih/structs v1.1.0
-	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/golang/protobuf v1.4.3
@@ -26,7 +25,7 @@ require (
 	google.golang.org/protobuf v1.25.1-0.20201208041424-160c7477e0e8
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gorm.io/driver/mysql v1.0.3
-	gorm.io/gorm v1.20.11
+	gorm.io/gorm v1.22.3
 	gorm.io/plugin/prometheus v0.0.0-20210112035011-ae3013937adc
 )
 

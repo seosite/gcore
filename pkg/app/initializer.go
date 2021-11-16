@@ -136,7 +136,7 @@ func createDb(name string, config MysqlConf) *gorm.DB {
 
 	sqlDb.SetMaxIdleConns(config.MaxIdleConns)
 	sqlDb.SetMaxOpenConns(config.MaxOpenConns)
-	sqlDb.SetConnMaxLifetime(time.Hour)
+	sqlDb.SetConnMaxLifetime(time.Minute * 20)
 	return db
 }
 
