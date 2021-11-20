@@ -14,6 +14,7 @@ type Conf struct {
 	Cache        CacheConf            `mapstructure:"cache" json:"cache" yaml:"cache"`
 	Cos          CosConf              `mapstructure:"cos" json:"cos" yaml:"cos"`
 	ThirdService ThirdServiceConf     `mapstructure:"thirdService" json:"thirdService" yaml:"thirdService"`
+	JiSuAPI      JiSuAPI              `mapstructure:"jiSuAPI" json:"jiSuAPI" yaml:"jiSuAPI"`
 }
 
 // ServerConf server config
@@ -101,4 +102,9 @@ type ThirdWxCenterConf struct {
 // ThirdRPCFortuneConf fortune common center config
 type ThirdRPCFortuneConf struct {
 	Address string `mapstructure:"address" json:"address" yaml:"address"`
+}
+
+type JiSuAPI struct {
+	AppKey    string `mapstructure:"appKey" json:"appkey" yaml:"appkey"`
+	AppSecret string `mapstructure:"appSecret" json:"appSecret" yaml:"appSecret"`
 }

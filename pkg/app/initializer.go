@@ -10,6 +10,7 @@ import (
 	"github.com/seosite/gcore/pkg/core/tencentyun"
 	"github.com/seosite/gcore/pkg/core/third"
 	"github.com/seosite/gcore/pkg/core/zapx"
+	"github.com/seosite/gcore/pkg/rest/jisu"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	driver_mysql "gorm.io/driver/mysql"
@@ -233,4 +234,13 @@ func InitThird() error {
 	}
 
 	return err
+}
+
+func InitJisuAPI() {
+	if Config.JiSuAPI.AppKey != "" {
+		JisuAPI = &jisu.JisuAPI{
+			AppKey:    Config.JiSuAPI.AppKey,
+			AppSecret: Config.JiSuAPI.AppSecret,
+		}
+	}
 }
